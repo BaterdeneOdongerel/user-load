@@ -11,10 +11,11 @@ const fetchUsers = (setData: any, setTotal:any, current: number, perPage: number
     setData(users);
 }
 
-export const getUserList = (setData: any, setError: any, setTotal:any, current: number, perPage: number) => {        
+export const getUserList = (setLoading: any, setData: any, setError: any, setTotal:any, current: number, perPage: number) => {        
     if (isDbEmpty()) {    
         axios.get(USERS_ENDPOINT)
         .then(function (response) {
+            setLoading(false);
             storeUserList(response.data);
             fetchUsers(setData, setTotal, current, perPage);
         })

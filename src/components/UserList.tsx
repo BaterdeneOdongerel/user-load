@@ -12,29 +12,30 @@ interface UserInterface {
 
 export const UserList: React.FC = (props) => {
     const perPage = 2;
+    const [loading, setLoading] = React.useState(false);
     const [total, setTotal] = React.useState(0);
     const [current, setCurrent] = React.useState(0);
     const [data, setData] = React.useState([]);
     const [error, setError] = React.useState(null);
 
     useEffect( () => {
-        getUserList( setData, setError, setTotal, current, perPage);
+        getUserList( setLoading, setData, setError, setTotal, current, perPage);
     }, [])
     const handleNext = () => {
         console.log((current + 1)* perPage + " " + total);
-        if ((current + 1)* perPage < total){
+        if ( loading == false &&(current + 1)* perPage < total){
             setCurrent(current + 1);
-            getUserList( setData, setError, setTotal, current + 1, perPage);
+            getUserList( setLoading, setData, setError, setTotal, current + 1, perPage);
         }
     }
     const handlePre = () => {
-        if (current > 0){
+        if (loading == false && current > 0){
             setCurrent(current - 1);
-            getUserList( setData, setError, setTotal, current - 1, perPage);
+            getUserList( setLoading, setData, setError, setTotal, current - 1, perPage);
         }
     }
     const refresh =() => {
-        getUserList( setData, setError, setTotal, current, perPage);
+        getUserList( setLoading, setData, setError, setTotal, current, perPage);
     }
     return (
         <div>
